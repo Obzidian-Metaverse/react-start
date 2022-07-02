@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      <button id="boton" onClick={getAddress}>CONNECT WALLET</button>
+      <button id="boton" className="btn" onClick={getAddress}>CONNECT WALLET</button>
     </div>
   );
 }

@@ -3,26 +3,31 @@ import { ethers } from "ethers";
 import Texto from "./Texto";
 
 function App() {
-  if ("ethereum" in window) {
+  function getAddress() {
+    if ("ethereum" in window) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
+      async function getWallet() {
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
 
-    async function getWallet() {
-      const wallet = await signer.getAddress();
-      console.log(wallet);
+        const wallet = await signer.getAddress();
+
+        const texto = document.getElementById("boton");
+        texto.innerText = wallet;
+      }
+
+      getWallet()
+
+
+    } else {
+      alert("Instala Metamask");
     }
-
-    getWallet()
-
-
-  } else {
-    alert("Instala Metamask");
   }
 
   return (
     <div className="App">
-      <Texto></Texto>
+      <button id="boton" onClick={getAddress}>CONNECT WALLET</button>
     </div>
   );
 }
